@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>超市管理系统——商品退货</title>
+    <!-- 引入重置样式 -->
+    <link rel="stylesheet" href="./stylesheets/reset.css">
+    <!-- 引入elementUI -->
+    <link rel="stylesheet" href="./stylesheets/elementUI.css">
+    <!-- 引入当前样式 -->
+    <link rel="stylesheet" href="./stylesheets/index.css">
+    <!-- script标签发起同步请求 -->
+    <script src="/users/checkState"></script>
+</head>
+
+<body>
+    <div id="app">
+        <el-container>
+            <!-- 右侧 -->
+            <el-container>
+                <el-main>
+                    <el-card class="box-card">
+                        <div slot="header" class="clearfix">
+                            <span>商品退货</span>
+                        </div>
+                        <div class="text item">
+                            <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2"
+                                label-width="100px" class="demo-ruleForm">
+                                <el-form-item label="订单号：" prop="orderNumber">
+                                    <el-input type="orderNumber" v-model="ruleForm2.orderNumber" autocomplete="off"></el-input>
+                                    <el-button type="success" @click="submitForm('ruleForm2')">查询</el-button>
+                                </el-form-item>
+                            </el-form>
+                        </div>
+                    </el-card>
+                </el-main>
+            </el-container>
+        </el-container>
+    </div>
+    <!-- 引入jquery -->
+    <script src="./javascripts/jquery.min.js"></script>
+    <!-- 引入vue -->
+    <script src="./javascripts/vue.min.js"></script>
+    <!-- 引入elementUI -->
+    <script src="./javascripts/elementUI.js"></script>
+    <script>
+        //创建vue实例
+        new Vue({
+            //挂载视图
+            el: "#app",
+            data() {
+                //自定义验证方法，判断密码和确认密码是否相等
+                var validatePass2 = (rule, value, callback) => {
+                    //如果密码和确认密码不相同，就抛出错误
+                    if (value !== this.ruleForm2.pass) {
+                        callback(new Error('两次输入密码不一致!'));
+                    } else {
+                        callback();
+                    }
+                };
+                return {
+                    textarea: '',
+                    resource: '',
+                    resource1: '',
+                    labelPosition: 'top',
+                    ruleForm2: {
+                        procode: '',
+                        proName: '',
+                        proPrice: '',
+                        mkPrice: '',
+                        proPricing: '',
+                        numInbound: '',
+                        proWeight: '',
+                        proUnits: '',
+                        region: '',
+                    },
+                    form: {
+                        desc: ''
+                    },
+                    rules2: {
+                        orderNumber: [{ required: true, message: "订单号必须填写", trigger: 'blur' }],
+                    }
+                };
+            },
+            methods: {
+                //提交表单
+                submitForm(formName) {
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {
+                            //表单验证通过发起ajax请求到后端路由
+                            //获取表单数据
+                            console.log("前端数据对象:", this.ruleForm2);
+                            $.post("/users/add", this.ruleForm2, function (result) {
+                                console.log(result);
+                            })
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                //重置表单
+                resetForm(formName) {
+                    this.$refs[formName].resetFields();
+                },
+                handleOpen(key, keyPath) {
+
+                },
+                handleClose(key, keyPath) {
+
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

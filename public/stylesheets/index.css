@@ -1,0 +1,197 @@
+/* 页面铺满 */
+html,body,#app,.el-container {
+    height: 100%;
+}
+/* 容器样式 */
+.el-menu-vertical-demo {
+  width: 200px;
+  margin-top: 25px;
+}
+
+.el-aside a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+/* 左侧标题 */
+#leftTitle {
+  text-align: right;
+  line-height: 40px;
+  color: #ccc;
+  padding-right: 20px;
+  font-size: 14px;
+}
+
+#leftTitle p>span {
+  color: #888;
+}
+
+#leftTitle h1 {
+  font-size: 24px;
+  padding: 30px 0px;
+  font-weight: normal;
+}
+
+/* 左侧导航菜单 */
+.el-menu {
+  background-color: transparent;
+  border-right: none;
+}
+
+.el-submenu{
+  margin-bottom: 10px;
+}
+
+/* 菜单标题 */
+.el-submenu__title {
+  color: #fff;
+  background: url(../images/menu_bg.png) repeat-x;
+  height: 33px;
+  line-height: 33px;
+  width: 210px;
+  border-radius: 4px 0px 0px 4px;
+  margin-left: 20px;
+  text-align: right;
+}
+
+/* 子菜单 */
+.el-submenu .el-menu-item {
+  color: #fff;
+  height: 33px;
+  line-height: 33px;
+  width: 210px;
+  border-radius: 4px 0px 0px 4px;
+  margin-left: 20px;
+  text-align:right;
+  padding: 0 20px;
+}
+
+/* 子菜单选择样式 */
+.el-menu-item .is-active {
+  background: url(../images/menu_bgOver.png) repeat-x;
+  color: rgb(245, 122, 8);
+}
+
+/* 鼠标悬停和焦点的样式 */
+.el-menu-item:focus, .el-menu-item:hover{
+  background-color: rgba(255, 255, 255, 0.2);
+  font-weight: bold;
+}
+
+/* 隐藏菜单箭头 */
+.el-submenu__icon-arrow{
+  display: none;
+}
+
+.el-header, .el-footer {
+    color: #333;
+    line-height: 30px;
+  }
+
+  .el-header h2 {
+    color: #000;
+    font-size: px;
+    font-weight: bold;
+    margin-top: 30px;
+  }
+
+  .el-footer {
+      font-size: 12px;
+  }
+
+  /* 左侧边栏 */
+  .el-aside {
+      background: url(../images/left_bg.png) repeat-y;
+  }
+  
+  .el-main {
+    
+    color: #333;
+    
+  }
+
+  .el-main .el-card__header {
+    height: 41px;
+    padding: 0px 20px;
+    line-height: 41px;
+    font-size: 16px;
+    font-weight: bold;
+    background: url(../images/cardTitleBg.png) repeat-x;
+  }
+
+  .el-main .el-card__body {
+    background-color: #fff;
+  }
+
+  #importAlert {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  
+  body > .el-container {
+    background-color: #f8f8f8;
+  }
+
+  .el-footer {
+    font-size: 12px;
+    
+  }
+
+  .el-footer p {
+    border-top: 1px solid #ccc;
+    line-height: 50px;
+  }
+
+  /* 账号添加页面 */
+  .el-input {
+    width: 20%;
+  }
+
+  /* 把下拉列表恢复为100% */
+  .el-input--suffix{
+    width: 100%;
+}
+  
+
+  /* 添加管理 */
+  /* .el-button {
+    margin-top: 10px;
+  } */
+
+  .el-form-item__label {
+    font-weight: bold;
+  }
+
+  /* 库存管理 */
+.el-pagination {
+  margin-top: 20px;
+}
+
+  /* 商品销售 */
+  .span1 {
+    color: #67C23A;
+  }
+
+  .p1 {
+    font-size: 14px;
+    margin-top: 0px;
+    line-height: 40px;
+    border-bottom: 1px solid #ddd;
+    text-indent: 10px;
+  }
+
+  .p1>.span2,.span3 {
+    color: red;
+  }
+
+  .el-form-item {
+    margin-top: 20px;
+  }
+
+  /* 查询关键词 */
+  #searchForm{
+    border-bottom: solid 2px rgb(212, 212, 212);
+}
+#searchForm .el-input{
+    width: 100%;
+}

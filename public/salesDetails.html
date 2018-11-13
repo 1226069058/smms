@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>超市管理系统——销售明细</title>
+    <!-- 引入重置样式 -->
+    <link rel="stylesheet" href="./stylesheets/reset.css">
+    <!-- 引入elementUI -->
+    <link rel="stylesheet" href="./stylesheets/elementUI.css">
+    <!-- 引入首页样式 -->
+    <link rel="stylesheet" href="./stylesheets/index.css">
+    <!-- script标签发起同步请求 -->
+    <script src="/users/checkState"></script>
+</head>
+
+<body>
+    <div id="app">
+        <el-container>
+            <!-- 右侧 -->
+            <el-container>
+                <el-main>
+                    <el-card class="box-card">
+                        <div slot="header" class="clearfix">
+                            <span>销售明细</span>
+                        </div>
+                        <div class="text item">
+                            <el-form :label-position="labelPosition" :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2"
+                                label-width="100px" class="demo-ruleForm">
+                                <el-form-item label="" prop="region">
+                                    <span>开始时间：</span>
+                                    <el-input type="startTime" v-model="ruleForm2.startTime" autocomplete="off"></el-input>
+                                    <span> 结束时间：</span>
+                                    <el-input type="endtTime" v-model="ruleForm2.endtTime" autocomplete="off"></el-input>
+                                    <span> (格式：2012-01-01) </span>
+                                </el-form-item>
+                                <el-form-item label="" prop="region">
+                                    <span>关键字：</span>
+                                    <el-input type="keyWord" v-model="ruleForm2.procode" autocomplete="off"></el-input>
+                                    <span>商品名称，订单号，客户名字，会员卡号</span>
+                                    <el-button type="success">查询</el-button>
+                                </el-form-item>
+                            </el-form>
+                            <template>
+                                <el-table :data="tableData" stripe style="width: 100%">
+                                    <el-table-column prop="orderNum" label="订单号">
+                                    </el-table-column>
+                                    <el-table-column prop="Name" label="名称">
+                                    </el-table-column>
+                                    <el-table-column prop="Num" label="数量">
+                                    </el-table-column>
+                                    <el-table-column prop="actualPirce" label="实际售价">
+                                    </el-table-column>
+                                    <el-table-column prop="prefer" label="优惠(促销/会员)">
+                                    </el-table-column>
+                                    <el-table-column prop="refund" label="退款">
+                                    </el-table-column>
+                                    <el-table-column prop="salesTime" label="销售时间">
+                                    </el-table-column>
+                                </el-table>
+                            </template>
+                            <el-pagination background layout="prev, pager, next" :total="30">
+                            </el-pagination>
+                        </div>
+                    </el-card>
+                </el-main>
+            </el-container>
+        </el-container>
+    </div>
+    <!-- 引入jquery -->
+    <script src="./javascripts/jquery.min.js"></script>
+    <!-- 引入vue -->
+    <script src="./javascripts/vue.min.js"></script>
+    <!-- 引入elementUI -->
+    <script src="./javascripts/elementUI.js"></script>
+    <script>
+        //创建vue实例
+        new Vue({
+            //挂载视图
+            el: "#app",
+            data() {
+                //自定义验证方法，判断密码和确认密码是否相等
+                var validatePass2 = (rule, value, callback) => {
+                    //如果密码和确认密码不相同，就抛出错误
+                    if (value !== this.ruleForm2.pass) {
+                        callback(new Error('两次输入密码不一致!'));
+                    } else {
+                        callback();
+                    }
+                };
+                return {
+                    labelPosition: 'top',
+                    ruleForm2: {
+                        procode: '',
+                        region: '',
+                    },
+                    rules2: {
+
+                    },
+                    tableData: [{
+                        orderNum: '6911989262549',
+                        Name: '海飞丝去屑洗发水',
+                        Num: '3',
+                        actualPirce: '24',
+                        prefer: '2.00元/无',
+                        refund: '无退款',
+                        salesTime: '2012-02-17',
+                    }],
+                };
+            },
+            methods: {
+                //提交表单
+                submitForm(formName) {
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {
+                            //表单验证通过发起ajax请求到后端路由
+                            //获取表单数据
+                            console.log("前端数据对象:", this.ruleForm2);
+                            $.post("/users/add", this.ruleForm2, function (result) {
+                                console.log(result);
+                            })
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                //重置表单
+                resetForm(formName) {
+                    this.$refs[formName].resetFields();
+                },
+                handleOpen(key, keyPath) {
+
+                },
+                handleClose(key, keyPath) {
+
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

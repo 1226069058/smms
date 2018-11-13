@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>超市管理系统——商品销售</title>
+    <!-- 引入重置样式 -->
+    <link rel="stylesheet" href="./stylesheets/reset.css">
+    <!-- 引入elementUI -->
+    <link rel="stylesheet" href="./stylesheets/elementUI.css">
+    <!-- 引入当前样式 -->
+    <link rel="stylesheet" href="./stylesheets/index.css">
+    <!-- script标签发起同步请求 -->
+    <script src="/users/checkState"></script>
+</head>
+
+<body>
+    <div id="app">
+        <el-container>
+            <!-- 右侧 -->
+            <el-container>
+                <el-main>
+                    <el-card class="box-card">
+                        <div slot="header" class="clearfix">
+                            <span>商品销售</span>
+                        </div>
+                        <div class="text item">
+                            <el-form :label-position="labelPosition" :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2"
+                                label-width="100px" class="demo-ruleForm">
+                                <el-form-item label="商品条形码：" prop="procode">
+                                    <el-input type="procode" v-model="ruleForm2.procode" autocomplete="off"></el-input>
+                                </el-form-item>
+                                <el-form-item label="数量：" prop="num">
+                                    <el-input type="num" v-model="ruleForm2.num" autocomplete="off"></el-input>
+                                    <span>计重商品单位为千克</span>
+                                </el-form-item>
+                                <el-button type="success" @click="submitForm('ruleForm2')">加入订单</el-button>
+                                <span class="span1">重新出库</span>
+                            </el-form>
+                            <template>
+                                <el-table :data="tableData" stripe style="width: 100%">
+                                    <el-table-column prop="name" label="名称">
+                                    </el-table-column>
+                                    <el-table-column prop="number" label="数量">
+                                    </el-table-column>
+                                    <el-table-column prop="Price" label="单价(元)">
+                                    </el-table-column>
+                                    <el-table-column prop="Price1" label="总价(元)">
+                                    </el-table-column>
+                                    <el-table-column prop="TotalPrice" label="优惠总价(元)">
+                                    </el-table-column>
+                                </el-table>
+                                <p class="p1">总价：<span>0</span> 元，优惠：<span>0</span> 元。<span class="span2">小计：<span
+                                            class="span3">0</span> 元</span></p>
+                            </template>
+                            <el-form :label-position="labelPosition" :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2"
+                                label-width="100px" class="demo-ruleForm">
+                                <el-form-item label="会员卡号：" prop="vipNum">
+                                    <el-input type="vipNum" v-model="ruleForm2.vipNum" autocomplete="off"></el-input>
+                                    <p>填写会员卡号</p>
+                                </el-form-item>
+                                <el-button type="success" @click="submitForm('ruleForm2')">确认提交</el-button>
+                            </el-form>
+                        </div>
+                    </el-card>
+                </el-main>
+            </el-container>
+        </el-container>
+    </div>
+    <!-- 引入jquery -->
+    <script src="./javascripts/jquery.min.js"></script>
+    <!-- 引入vue -->
+    <script src="./javascripts/vue.min.js"></script>
+    <!-- 引入elementUI -->
+    <script src="./javascripts/elementUI.js"></script>
+    <script>
+        //创建vue实例
+        new Vue({
+            //挂载视图
+            el: "#app",
+            data() {
+                //自定义验证方法，判断密码和确认密码是否相等
+                var validatePass2 = (rule, value, callback) => {
+                    //如果密码和确认密码不相同，就抛出错误
+                    if (value !== this.ruleForm2.pass) {
+                        callback(new Error('两次输入密码不一致!'));
+                    } else {
+                        callback();
+                    }
+                };
+                return {
+                    textarea: '',
+                    resource: '',
+                    resource1: '',
+                    labelPosition: 'top',
+                    ruleForm2: {
+                        procode: '',
+                        num: '',
+                    },
+                    tableData: [{
+                        name: '暂无商品',
+                        number: '',
+                        Price: '',
+                        Price1: '',
+                        TotalPrice: '',
+                    }],
+                    rules2: {
+                        procode: [{ required: true, message: "条形码必须填写", trigger: 'blur' }],
+                        num: [{ required: true, message: "商品重量必须填写", trigger: 'blur' }],
+                        // vipNum: [{ required: true, message: "会员卡号必须填写", trigger: 'blur' }]
+                    }
+                };
+            },
+            methods: {
+                //提交表单
+                submitForm(formName) {
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {
+                            //表单验证通过发起ajax请求到后端路由
+                            //获取表单数据
+                            console.log("前端数据对象:", this.ruleForm2);
+                            $.post("/users/add", this.ruleForm2, function (result) {
+                                console.log(result);
+                            })
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                //重置表单
+                resetForm(formName) {
+                    this.$refs[formName].resetFields();
+                },
+                handleOpen(key, keyPath) {
+
+                },
+                handleClose(key, keyPath) {
+
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

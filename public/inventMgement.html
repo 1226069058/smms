@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>超市管理系统——库存管理</title>
+    <!-- 引入重置样式 -->
+    <link rel="stylesheet" href="./stylesheets/reset.css">
+    <!-- 引入elementUI -->
+    <link rel="stylesheet" href="./stylesheets/elementUI.css">
+    <!-- 引入首页样式 -->
+    <link rel="stylesheet" href="./stylesheets/index.css">
+    <!-- script标签发起同步请求 -->
+    <script src="/users/checkState"></script>
+</head>
+
+<body>
+    <div id="app">
+        <el-container>
+            <!-- 右侧 -->
+            <el-container>
+                <el-main>
+                    <el-card class="box-card">
+                        <div slot="header" class="clearfix">
+                            <span>库存管理</span>
+                        </div>
+                        <div class="text item">
+                            <el-form :label-position="labelPosition" :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2"
+                                label-width="100px" class="demo-ruleForm">
+                                <el-form-item label="" prop="region">
+                                    <span>分类：</span>
+                                    <el-select v-model="ruleForm2.region" placeholder="---选择分类---">
+                                        <el-option label="日用品" value="日用品"></el-option>
+                                        <el-option label="厨房用品" value="厨房用品"></el-option>
+                                        <el-option label="床上用品" value="床上用品"></el-option>
+                                    </el-select>
+                                    <span> 关键字：</span>
+                                    <el-input type="procode" v-model="ruleForm2.procode" autocomplete="off"></el-input>
+                                    <span> (商品名称,条形码) </span>
+                                    <el-button type="success">查询</el-button>
+                                </el-form-item>
+                            </el-form>
+                            <template>
+                                <el-table :data="tableData" stripe style="width: 100%">
+                                    <el-table-column prop="procode" label="商品条形码">
+                                    </el-table-column>
+                                    <el-table-column prop="proName" label="商品名称">
+                                    </el-table-column>
+                                    <el-table-column prop="inPrice" label="进价(元)">
+                                    </el-table-column>
+                                    <el-table-column prop="inInven" label="入库">
+                                    </el-table-column>
+                                    <el-table-column prop="Inventory" label="库存">
+                                    </el-table-column>
+                                    <el-table-column prop="sold" label="已售">
+                                    </el-table-column>
+                                    <el-table-column prop="mgement" label="管理">
+                                        <template slot-scope="scope">
+                                            <i class="el-icon-edit"></i>
+                                        </template>
+                                    </el-table-column>
+                                </el-table>
+                            </template>
+                            <el-pagination background layout="prev, pager, next" :total="30">
+                            </el-pagination>
+                        </div>
+                    </el-card>
+                </el-main>
+            </el-container>
+        </el-container>
+    </div>
+    <!-- 引入jquery -->
+    <script src="./javascripts/jquery.min.js"></script>
+    <!-- 引入vue -->
+    <script src="./javascripts/vue.min.js"></script>
+    <!-- 引入elementUI -->
+    <script src="./javascripts/elementUI.js"></script>
+    <script>
+        //创建vue实例
+        new Vue({
+            //挂载视图
+            el: "#app",
+            data() {
+                //自定义验证方法，判断密码和确认密码是否相等
+                var validatePass2 = (rule, value, callback) => {
+                    //如果密码和确认密码不相同，就抛出错误
+                    if (value !== this.ruleForm2.pass) {
+                        callback(new Error('两次输入密码不一致!'));
+                    } else {
+                        callback();
+                    }
+                };
+                return {
+                    labelPosition: 'top',
+                    ruleForm2: {
+                        procode: '',
+                        region: '',
+                    },
+                    rules2: {
+                        procode: [{ required: true, message: "名称必须填写", trigger: 'blur' }],
+                        region: [{ required: true, message: "名称必须填写", trigger: 'blur' }],
+                    },
+                    tableData: [{
+                        procode: '6911989262549',
+                        proName: '海飞丝去屑洗发水',
+                        inPrice: '7.00',
+                        inInven: '10',
+                        Inventory: '5',
+                        sold: '5',
+                    }],
+                };
+            },
+            methods: {
+                //提交表单
+                submitForm(formName) {
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {
+                            //表单验证通过发起ajax请求到后端路由
+                            //获取表单数据
+                            console.log("前端数据对象:", this.ruleForm2);
+                            $.post("/users/add", this.ruleForm2, function (result) {
+                                console.log(result);
+                            })
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                //重置表单
+                resetForm(formName) {
+                    this.$refs[formName].resetFields();
+                },
+                handleOpen(key, keyPath) {
+
+                },
+                handleClose(key, keyPath) {
+
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

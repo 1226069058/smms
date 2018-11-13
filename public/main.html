@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>超市管理系统——首页</title>
+    <!-- 引入重置样式 -->
+    <link rel="stylesheet" href="./stylesheets/reset.css">
+    <!-- 引入elementUI -->
+    <link rel="stylesheet" href="./stylesheets/elementUI.css">
+    <!-- 引入当前样式 -->
+    <link rel="stylesheet" href="./stylesheets/index.css">
+    <!-- script标签发起同步请求 -->
+    <script src="/users/checkState"></script>
+</head>
+
+<body>
+    <div id="app">
+        <el-main>
+            <el-card class="box-card">
+                <div slot="header" class="clearfix">
+                    <span>系统信息</span>
+                </div>
+                <div class="text item">
+                    <!-- 消息框 -->
+                    <el-alert class="el-icon-warning" title="商品总数：5。 已经销售的总金额：890.00。 库存商品总价：1235.82" type="info">
+
+                    </el-alert>
+                    <el-alert class="el-icon-warning" id="importAlert" title="导入数据" type="success" :closable="false">
+                    </el-alert>
+                    <!-- 左右结构 -->
+                    <el-row :gutter="22">
+                        <el-col :span="12">
+                            <div class="grid-content bg-purple">
+                                <el-card class="box-card">
+                                    <div slot="header" class="clearfix">
+                                        <span>销售排行</span>
+                                    </div>
+                                    <div class="text item">
+                                        <template>
+                                            <el-table :data="tableData" stripe style="width: 100%">
+                                                <el-table-column prop="productName" label="商品名称">
+                                                </el-table-column>
+                                                <el-table-column prop="" label="">
+                                                </el-table-column>
+                                                <el-table-column prop="Sales" label="销量">
+                                                </el-table-column>
+                                            </el-table>
+                                        </template>
+                                    </div>
+                                </el-card>
+                            </div>
+                        </el-col>
+                        <el-col :span="12">
+                            <div class="grid-content bg-purple-light">
+                                <el-card class="box-card">
+                                    <div slot="header" class="clearfix">
+                                        <span>缺货商品</span>
+                                    </div>
+                                    <div class="text item">
+                                        <template>
+                                            <el-table :data="lesstableData" stripe style="width: 100%">
+                                                <el-table-column prop="productName" label="商品名称">
+                                                </el-table-column>
+                                                <el-table-column prop="num" label="库存">
+                                                </el-table-column>
+                                                <el-table-column prop="operation" label="操作">
+                                                </el-table-column>
+                                            </el-table>
+                                        </template>
+                                    </div>
+                                </el-card>
+                            </div>
+                        </el-col>
+                    </el-row>
+                </div>
+            </el-card>
+        </el-main>
+    </div>
+    <!-- 引入jquery -->
+    <script src="./javascripts/jquery.min.js"></script>
+    <!-- 引入vue -->
+    <script src="./javascripts/vue.min.js"></script>
+    <!-- 引入elementUI -->
+    <script src="./javascripts/elementUI.js"></script>
+    <script>
+        //创建vue实例
+        new Vue({
+            //挂载视图
+            el: "#app",
+            data() {
+                return {
+                    tableData: [{
+                        productName: '海飞丝洗发水',
+                        Sales: '8'
+                    }, {
+                        productName: '茅台酒',
+                        Sales: '6'
+                    }, {
+                        productName: '龙凤呈祥',
+                        Sales: '5'
+                    }, {
+                        productName: '龙凤呈祥2',
+                        Sales: '2'
+                    }],
+                    lesstableData:[{
+                        productName:'我的优乐美',
+                        num: '1',
+                        operation:'入库'
+                    }]
+                }
+            },
+            methods: {
+                handleOpen(key, keyPath) {
+
+                },
+                handleClose(key, keyPath) {
+
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>超市管理系统——修改密码</title>
+    <!-- 引入重置样式 -->
+    <link rel="stylesheet" href="./stylesheets/reset.css">
+    <!-- 引入elementUI -->
+    <link rel="stylesheet" href="./stylesheets/elementUI.css">
+    <!-- 引入当前样式 -->
+    <link rel="stylesheet" href="./stylesheets/index.css">
+    <!-- script标签发起同步请求 -->
+    <script src="/users/checkState"></script>
+</head>
+
+<body>
+    <div id="app">
+        <el-container>
+            <!-- 右侧 -->
+            <el-container>
+                <el-main>
+                    <el-card class="box-card">
+                        <div slot="header" class="clearfix">
+                            <span>修改账号密码</span>
+                        </div>
+                        <div class="text item">
+                            <el-form :label-position="labelPosition" :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2"
+                                label-width="100px" class="demo-ruleForm">
+                                <el-form-item label="原密码" prop="oldPass">
+                                    <el-input type="password" v-model="ruleForm2.oldPass" autocomplete="off"></el-input>
+                                </el-form-item>
+                                <el-form-item label="新密码" prop="pass">
+                                    <el-input type="password" v-model="ruleForm2.pass" autocomplete="off"></el-input>
+                                </el-form-item>
+                                <el-form-item label="新密码" prop="checkPass">
+                                    <el-input type="password" v-model="ruleForm2.checkPass"></el-input>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-button type="success" @click="submitForm('ruleForm2')">修改</el-button>
+                                    <el-button @click="resetForm('ruleForm2')">重置</el-button>
+                                </el-form-item>
+                            </el-form>
+                        </div>
+                    </el-card>
+                </el-main>
+            </el-container>
+        </el-container>
+    </div>
+    <!-- 引入jquery -->
+    <script src="./javascripts/jquery.min.js"></script>
+    <!-- 引入vue -->
+    <script src="./javascripts/vue.min.js"></script>
+    <!-- 引入elementUI -->
+    <script src="./javascripts/elementUI.js"></script>
+    <script>
+        //创建vue实例
+        new Vue({
+            //挂载视图
+            el: "#app",
+            data() {
+                //自定义验证方法，判断密码和确认密码是否相等
+                var validatePass2 = (rule, value, callback) => {
+                    //如果密码和确认密码不相同，就抛出错误
+                    if (value !== this.ruleForm2.pass) {
+                        callback(new Error('两次输入密码不一致!'));
+                    } else {
+                        callback();
+                    }
+                };
+                return {
+                    labelPosition: 'top',
+                    ruleForm2: {
+                        pass: '',
+                        oldPass: '',
+                        checkPass: '',
+                        region: ''
+                    },
+                    rules2: {
+                        pass: [
+                            { required: true, message: "新密码必须填写", trigger: 'blur' },
+                            { min: 6, max: 12, message: "密码长度必须在6~12位之间", trigger: 'blur' }
+                        ],
+                        oldPass: [
+                            { required: true, message: "原密码必须填写", trigger: 'blur' },
+                            { min: 6, max: 18, message: "密码长度必须在6~18位之间", trigger: 'blur' }
+                        ],
+                        checkPass: [
+                            { required: true, message: "请再次输入新密码", trigger: 'blur' },
+                            { min: 6, max: 18, message: "确认密码长度必须在6~18位之间", trigger: 'blur' },
+                            { validator: validatePass2, trigger: 'blur' }
+                        ],
+                    }
+                };
+            },
+            methods: {
+                //提交表单
+                submitForm(formName) {
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {
+                            //表单验证通过发起ajax请求到后端路由
+                            //获取表单数据
+                            console.log("前端数据对象:", this.ruleForm2);
+                            $.post("/users/add", this.ruleForm2, function (result) {
+                                console.log(result);
+                            })
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                //重置表单
+                resetForm(formName) {
+                    this.$refs[formName].resetFields();
+                },
+                handleOpen(key, keyPath) {
+
+                },
+                handleClose(key, keyPath) {
+
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
